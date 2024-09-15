@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta content="width=device-width, initial-scale=1.0" name="viewport">
+    <title>RBAC Analysis Tool</title>
+</head>
+<body>
+<h1>RBAC Analysis Tool</h1>
+<form enctype="multipart/form-data" id="uploadForm">
+    <input accept=".csv" id="fileInput" name="file" type="file">
+    <button type="submit">Upload and Analyze</button>
+</form>
+<div id="result"></div>
+
+<script>
+    document.getElementById('uploadForm').addEventListener('submit', function(e) {
+        e.preventDefault();
+        var formData = new FormData(this);
+        fetch('/upload', {
+            method: 'POST',
+            body: formData
+        })
+        .then(response => response.json())
+        .then(data => {
+            document.getElementById('result').innerHTML = JSON.stringify(data, null, 2);
+        })
+        .catch(error => console.error('Error:', error));
+    });
+</script>
+</body>
+</html>
